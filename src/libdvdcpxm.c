@@ -910,13 +910,11 @@ int dvdcpxm_read ( dvdcss_t dvdcss, void *p_buffer,
     i_ret = dvdcss->pf_read( dvdcss, _p_buffer, i_blocks );
 
     if( i_ret <= 0
+         || !dvdcss->cpxm
          || !(i_flags & DVDCSS_READ_DECRYPT) )
     {
         return i_ret;
     }
-
-    if ( !dvdcss->cpxm )
-        return -1;
 
     /* Decrypt the blocks we managed to read */
     for( i_index = i_ret; i_index; i_index-- )
@@ -946,13 +944,11 @@ int dvdcpxm_readv ( dvdcss_t dvdcss, void *p_iovec,
     i_ret = dvdcss->pf_readv( dvdcss, _p_iovec, i_blocks );
 
     if( i_ret <= 0
+         || !dvdcss->cpxm
          || !(i_flags & DVDCSS_READ_DECRYPT) )
     {
         return i_ret;
     }
-
-    if ( !dvdcss->cpxm )
-        return -1;
 
     /* Initialize loop for decryption */
     iov_base = _p_iovec->iov_base;
